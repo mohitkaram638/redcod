@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rohit Graphics | Thumbnail Booking & Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header class="main-header">
+        <div class="logo">ROHIT <span>Graphics</span></div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="my.about.html">My About</a>
+            <a href="MY.WORK.HTML">My Work</a>
+            <a href="contact.html">Contact Us</a>
+        </nav>
+    </header>
+
+    <div class="hero-section" id="home">
+        <h1>Let's Create Your Perfect Thumbnail.</h1>
+        <p>Tell me what you need, share your references, and get custom professional thumbnails for your channel.</p>
+    </div>
+
+    <main class="container" id="booking">
+        <!-- Booking Form -->
+        <section class="form-section">
+            <h2>Book a Thumbnail</h2>
+            <p>Fill in the details below. Final price will be decided according to your requirements.</p>
+            <form id="bookingForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>Name *</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone / WhatsApp *</label>
+                    <input type="tel" id="phone" name="phone" placeholder="Enter WhatsApp number" required>
+                </div>
+                <div class="form-group">
+                    <label>Video Title</label>
+                    <input type="text" id="videoTitle" name="videoTitle" placeholder="Enter your video title">
+                </div>
+                <div class="form-group">
+                    <label>Select Style</label>
+                    <input type="text" id="style" name="style" placeholder="Example: Gaming, Vlogs, Tech">
+                </div>
+               
+                <!-- Images / Folder Upload Field -->
+                <div class="form-group">
+                    <label>Reference Images or Folder (Max 200MB)</label>
+                    <input type="file" id="images" name="images" multiple>
+                    <small style="color: #aaa; font-size: 12px; display: block; margin-top: 5px;">
+                        * Aap single/multiple photos ya folder select karke upload kar sakte hain (Max size: 200MB).
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label>Your Requirements / Description *</label>
+                    <textarea id="requirements" name="requirements" rows="4"
+                        placeholder="Apne words me bataiye ki thumbnail kaisa chahiye..." required></textarea>
+                </div>
+                <button type="submit" id="submitBtn">Send Booking Request</button>
+            </form>
+        </section>
+
+        <!-- Right Column: Status, Payment & History Search -->
+        <div class="right-column">
+            <section class="status-section">
+                <h2>Booking Status</h2>
+                <div id="statusMessage">Your booking status will appear here after submission.</div>
+            </section>
+
+            <section class="payment-section">
+                <h2>UPI Payment</h2>
+                <p>Advance: 50% | Final: 50%</p>
+                <strong>
+                    Payment ke baad screenshot niche diye gaye Chat Now button par click karke share karein, tabhi kaam shuru hoga! par aap loge payment jab hi karna jab me aap ko message karuga ki aapki request accept ho gayi hai form fell karo ge jab hi message aayega
+                </strong>
+                <img src="qr.jpeg" alt="UPI QR Code" style="height: auto; width: 200px; margin-bottom: 15px;">
+                
+                <!-- Direct WhatsApp Message Link -->
+                <a href="https://wa.me/917771824590?text=Hi%20Rohit%20Graphics,%20I%20have%20made%20the%20payment.%20Here%20is%20my%20screenshot." target="_blank" class="pay-btn" style="background: #25D366; margin-bottom: 12px; display: block; text-align: center;">
+                    💬 Chat Now / Message Now
+                </a>
+
+              
+            </section>
+
+            <!-- History Search Section -->
+            <section class="history-section" id="history">
+                <h2>Check My Booking History</h2>
+                <div class="form-group">
+                    <input type="email" id="searchEmail" placeholder="Enter your registered email">
+                </div>
+                <button type="button" id="searchHistoryBtn">View History</button>
+                <div id="historyResult" style="margin-top: 15px; font-size: 14px;"></div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="main-footer">
+        <div class="footer-content">
+            <p>&copy; 2026 Rohit Graphics. All Rights Reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact Support</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

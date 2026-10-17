@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rohit Graphics | Portfolio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- ================= HOME STYLE HEADER ================= -->
+  <header>
+      <div class="logo">ROHIT <span>Graphics</span></div>
+    <nav>
+    
+      
+        <li><a href="index.html">Home</a></li>
+        <li><a href="my.about.html">My About</a></li>
+        <li><a href="MY.WORK.HTML" class="active">My Work</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      
+    </nav>
+  </header>
+
+  <!-- ================= MY WORK ================= -->
+  <section class="my-work" id="work">
+    <div class="work-top">
+      <p>MY PORTFOLIO</p>
+      <h2>My <span>Work</span></h2>
+      <div class="work-line"></div>
+    </div>
+
+    <div class="work-gallery">
+      <!-- 01 -->
+      <div class="work-card" onclick="openPreview(this)">
+        <img src="Untitled-1.jpg" alt="Graphic Design">
+        <div class="card-number">01</div>
+        <div class="card-title"></div>
+      </div>
+
+      <!-- 02 -->
+      <div class="work-card" onclick="openPreview(this)">
+        <img src="youtub thumanel.jpg" alt="Creative Work">
+        <div class="card-number">02</div>
+        <div class="card-title"></div>
+      </div>
+
+      <!-- 03 -->
+      <div class="work-card" onclick="openPreview(this)">
+        <img src="rohit.jpg" alt="Design Project">
+        <div class="card-number">03</div>
+        <div class="card-title"></div>
+      </div>
+
+      <!-- 04 -->
+      <div class="work-card" onclick="openPreview(this)">
+        <img src="rohit.jpg" alt="Motion Design">
+        <div class="card-number">04</div>
+        <div class="card-title"></div>
+      </div>
+
+      <!-- 05 -->
+      <div class="work-card" onclick="openPreview(this)">
+        <img src="YOUTUB_1.jpg" alt="Social Media Design">
+        <div class="card-number">05</div>
+        <div class="card-title"></div>
+      </div>
+
+      <!-- 06 -->
+      <div class="work-card" onclick="openPreview(this)">
+        <img src="https://picsum.photos/id/1074/1200/800" alt="Video Editing">
+        <div class="card-number">06</div>
+        <div class="card-title"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FULL SCREEN PREVIEW ================= -->
+  <div class="preview" id="preview">
+    <button class="preview-close" onclick="closePreview()">×</button>
+    <button class="preview-prev" onclick="changeImage(-1)">‹</button>
+    <div class="preview-content">
+      <img id="previewImage" src="" alt="Preview">
+    </div>
+    <button class="preview-next" onclick="changeImage(1)">›</button>
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-col">
+        <h3>Rohit <span>Graphics</span></h3>
+        <p>Graphic & Motion Graphic Designer creating creative visuals, thumbnails and digital designs.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Connect With Me group</h4>
+        <ul class="footer-links">
+          <li><a href="https://www.instagram.com/rohitvideo_editor4?stkn=OXphMGxqMXQ3ZjEz" target="_blank">Instagram</a></li>
+          <li><a href="https://www.youtube.com/@rohitvishwakarma-e7b" target="_blank" rel="noopener noreferrer">Visit My YouTube Channel</a></li>
+          <li><a href="mailto:rohitkarma232@gmail.com">rohitkarma232@gmail.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Let's Work Together</h4>
+        <p>Have a project or design idea? Let's create something amazing.</p>
+        <a href="https://chat.whatsapp.com/GubEkpo87y9CXfN6ulka0Y" class="btn-chat">💬 Chat With Me</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      &copy; 2026 Rohit Graphics. All Rights Reserved.
+    </div>
+  </footer>
+
+  <script>
+    let currentImage = 0;
+    const workImages = document.querySelectorAll(".work-card img");
+    const preview = document.getElementById("preview");
+    const previewImage = document.getElementById("previewImage");
+
+    function openPreview(card) {
+      currentImage = Array.from(document.querySelectorAll(".work-card")).indexOf(card);
+      showImage();
+      preview.classList.add("active");
+      document.body.classList.add("preview-open");
+    }
+
+    function showImage() {
+      previewImage.src = workImages[currentImage].src;
+      previewImage.alt = workImages[currentImage].alt;
+    }
+
+    function closePreview() {
+      preview.classList.remove("active");
+      document.body.classList.remove("preview-open");
+    }
+
+    function changeImage(direction) {
+      currentImage += direction;
+      if (currentImage < 0) {
+        currentImage = workImages.length - 1;
+      }
+      if (currentImage >= workImages.length) {
+        currentImage = 0;
+      }
+      showImage();
+    }
+
+    preview.addEventListener("click", function (e) {
+      if (e.target === preview) {
+        closePreview();
+      }
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (!preview.classList.contains("active")) return;
+      if (e.key === "Escape") closePreview();
+      if (e.key === "ArrowRight") changeImage(1);
+      if (e.key === "ArrowLeft") changeImage(-1);
+    });
+  </script>
+
+</body>
+
+</html>
