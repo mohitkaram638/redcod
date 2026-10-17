@@ -53,13 +53,19 @@
                 </div>
                
                 <!-- Images / Folder Upload Field -->
-                <div class="form-group">
-                    <label>Reference Images or Folder (Max 200MB)</label>
-                    <input type="file" id="images" name="images" multiple>
-                    <small style="color: #aaa; font-size: 12px; display: block; margin-top: 5px;">
-                        * Aap single/multiple photos ya folder select karke upload kar sakte hain (Max size: 200MB).
-                    </small>
-                </div>
+        <form action="/api/book" method="POST" enctype="multipart/form-data">
+    
+    <!-- अगर आपके पास नाम, फोन या दूसरे इनपुट हैं, तो वे यहीं रहेंगे -->
+
+    <!-- यह रहा इमेज अपलोड वाला सही कोड, इसे अपनी पुरानी अपलोड फील्ड की जगह रख दें -->
+    <div class="file-upload-box">
+        <label for="imageUpload">Reference Images or Photos (Max 20MB)</label>
+        <input type="file" name="images" id="imageUpload" multiple accept="image/*">
+    </div>
+
+    <!-- सबमिट बटन -->
+    <button type="submit">Send Booking Request</button>
+</form>>
 
                 <div class="form-group">
                     <label>Your Requirements / Description *</label>
