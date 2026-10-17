@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const bookingForm = document.getElementById("bookingForm");
     const statusMessage = document.getElementById("statusMessage");
     const imageInput = document.getElementById("images");
+    const submitBtn = document.getElementById("submitBtn");
 
     // 1. Form Submit Logic
     if (bookingForm) {
@@ -12,20 +13,21 @@ document.addEventListener("DOMContentLoaded", function () {
             const maxSizeBytes = 200 * 1024 * 1024;
             let totalSize = 0;
 
-            if (imageInput && imageInput.files) {
+            if (imageInput && imageInput.files && imageInput.files.length > 0) {
                 for (let i = 0; i < imageInput.files.length; i++) {
                     totalSize += imageInput.files[i].size;
                 }
             }
 
             if (totalSize > maxSizeBytes) {
-                alert("Selected files/folder size is too large! Please keep it under 200MB.");
+                alert("Selected files size is too large! Please keep it under 200MB.");
                 return;
             }
 
-            const submitBtn = document.getElementById("submitBtn");
-            submitBtn.disabled = true;
-            submitBtn.textContent = "Sending Request...";
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = "Sending Request...";
+            }
 
             const formData = new FormData(bookingForm);
 
@@ -38,22 +40,26 @@ document.addEventListener("DOMContentLoaded", function () {
                 const result = await response.json();
 
                 if (response.ok && result.success) {
-                    statusMessage.innerHTML = `
-                        <div style="background: rgba(74, 222, 128, 0.15); border: 1px solid #4ade80; padding: 15px; border-radius: 8px; margin-top: 10px;">
-                            <h4 style="color: #4ade80; margin-bottom: 5px;">✔ Booking Submitted Successfully!</h4>
-                            <p style="color: #ddd; font-size: 13px;">Kripya QR code se payment karke Screenshot Chat Now button par click karke WhatsApp par send karein.</p>
-                        </div>
-                    `;
+                    if (statusMessage) {
+                        statusMessage.innerHTML = `
+                            <div style="background: rgba(74, 222, 128, 0.15); border: 1px solid #4ade80; padding: 15px; border-radius: 8px; margin-top: 10px;">
+                                <h4 style="color: #4ade80; margin-bottom: 5px; margin-top: 0;">✔ Booking Submitted Successfully!</h4>
+                                <p style="color: #ddd; font-size: 13px; margin: 0;">Kripya QR code se payment karke Screenshot Chat Now button par click karke WhatsApp par send karein.</p>
+                            </div>
+                        `;
+                    }
                     bookingForm.reset();
                 } else {
-                    alert(result.error || "Something went wrong!");
+                    alert(result.message || result.error || "Something went wrong!");
                 }
             } catch (err) {
-                console.error(err);
-                alert("Server connection error!");
+                console.error("Form submit error:", err);
+                alert("Server connection error! Check server logs.");
             } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = "Send Booking Request";
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = "Send Booking Request";
+                }
             }
         });
     }
@@ -63,21 +69,21 @@ document.addEventListener("DOMContentLoaded", function () {
     const searchEmailInput = document.getElementById("searchEmail");
     const historyResult = document.getElementById("historyResult");
 
-    if (searchHistoryBtn) {
+    if (searchHistoryBtn && searchEmailInput) {
         searchHistoryBtn.addEventListener("click", async function () {
             const email = searchEmailInput.value.trim();
             if (!email) {
-                historyResult.innerHTML = `<span style="color: #f87171;">Please enter your registered email.</span>`;
+                if (historyResult) historyResult.innerHTML = `<span style="color: #f87171;">Please enter your registered email.</span>`;
                 return;
             }
 
-            historyResult.innerHTML = "Searching history...";
+            if (historyResult) historyResult.innerHTML = "Searching history...";
 
             try {
                 const response = await fetch(`/api/history?email=${encodeURIComponent(email)}`);
                 if (response.ok) {
                     const data = await response.json();
-                    if (data.length > 0) {
+                    if (data && data.length > 0) {
                         let html = "<ul style='list-style: none; padding: 0;'>";
                         data.forEach(item => {
                             let statusColor = "#f59e0b"; // Yellow for Pending
@@ -91,15 +97,15 @@ document.addEventListener("DOMContentLoaded", function () {
                             </li>`;
                         });
                         html += "</ul>";
-                        historyResult.innerHTML = html;
+                        if (historyResult) historyResult.innerHTML = html;
                     } else {
-                        historyResult.innerHTML = "<span style='color: #aaa;'>No bookings found for this email.</span>";
+                        if (historyResult) historyResult.innerHTML = "<span style='color: #aaa;'>No bookings found for this email.</span>";
                     }
                 } else {
-                    historyResult.innerHTML = "<span style='color: #f87171;'>Could not fetch history.</span>";
+                    if (historyResult) historyResult.innerHTML = "<span style='color: #f87171;'>Could not fetch history.</span>";
                 }
             } catch (err) {
-                historyResult.innerHTML = "<span style='color: #f87171;'>Server connection error.</span>";
+                if (historyResult) historyResult.innerHTML = "<span style='color: #f87171;'>Server connection error.</span>";
             }
         });
     }

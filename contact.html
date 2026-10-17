@@ -30,7 +30,8 @@
         <section class="form-section">
             <h2>Book a Thumbnail</h2>
             <p>Fill in the details below. Final price will be decided according to your requirements.</p>
-            <form id="bookingForm" enctype="multipart/form-data">
+            
+            <form id="bookingForm" action="/api/book" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label>Name *</label>
                     <input type="text" id="name" name="name" placeholder="Enter your name" required>
@@ -52,25 +53,18 @@
                     <input type="text" id="style" name="style" placeholder="Example: Gaming, Vlogs, Tech">
                 </div>
                
-                <!-- Images / Folder Upload Field -->
-        <form action="/api/book" method="POST" enctype="multipart/form-data">
-    
-    <!-- अगर आपके पास नाम, फोन या दूसरे इनपुट हैं, तो वे यहीं रहेंगे -->
-
-    <!-- यह रहा इमेज अपलोड वाला सही कोड, इसे अपनी पुरानी अपलोड फील्ड की जगह रख दें -->
-    <div class="file-upload-box">
-        <label for="imageUpload">Reference Images or Photos (Max 20MB)</label>
-        <input type="file" name="images" id="imageUpload" multiple accept="image/*">
-    </div>
-
-  
-</form>>
+                <!-- Reference Images Field -->
+                <div class="form-group file-upload-box">
+                    <label for="images">Reference Images or Photos (Max 200MB)</label>
+                    <input type="file" id="images" name="images" multiple accept="image/*">
+                </div>
 
                 <div class="form-group">
                     <label>Your Requirements / Description *</label>
                     <textarea id="requirements" name="requirements" rows="4"
                         placeholder="Apne words me bataiye ki thumbnail kaisa chahiye..." required></textarea>
                 </div>
+
                 <button type="submit" id="submitBtn">Send Booking Request</button>
             </form>
         </section>
@@ -94,8 +88,6 @@
                 <a href="https://wa.me/917771824590?text=Hi%20Rohit%20Graphics,%20I%20have%20made%20the%20payment.%20Here%20is%20my%20screenshot." target="_blank" class="pay-btn" style="background: #25D366; margin-bottom: 12px; display: block; text-align: center;">
                     💬 Chat Now / Message Now
                 </a>
-
-              
             </section>
 
             <!-- History Search Section -->
