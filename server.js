@@ -4,10 +4,11 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const Booking = require('./booking');
-
+const cors = require('cors');
 const app = express();
 
 // 1. Middlewares
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
