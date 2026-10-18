@@ -6,7 +6,13 @@ const fs = require('fs');
 const Booking = require('./booking');
 const cors = require('cors');
 const app = express();
+const cloudinary = require('cloudinary').v2;
 
+cloudinary.config({ 
+  cloud_name: 'ukm6a7gc', 
+  api_key: '757688874595737', 
+  api_secret: 'bzgZpwGLnImxg6Xh6lEjP4jKpVk' 
+});
 // 1. Middlewares
 app.use(cors());
 app.use(express.json());
@@ -62,26 +68,32 @@ app.put('/api/admin/update-status', async (req, res) => {
 });
 
 // New Booking API
-app.post('/api/book', upload.array('images', 20), async (req, res) => {
-    try {
-        const imagePaths = req.files ? req.files.map(f => f.path) : [];
-        const bookingData = { 
-            name: req.body.name,
-            email: req.body.email ? req.body.email.toLowerCase() : '',
-            phone: req.body.phone,
-            videoTitle: req.body.videoTitle,
-            style: req.body.style,
-            requirements: req.body.requirements,
-            images: imagePaths,
-            status: 'Pending'
-        };
-        const newBooking = new Booking(bookingData);
-        await newBooking.save();
-        res.status(201).json({ success: true, booking: newBooking });
-    } catch (err) {
-        console.error('Booking Error:', err);
-        res.status(500).json({ success: false, error: err.message });
-    }
+app.post('/api/booking', upload.array('images', 20), async (req, res) => {
+  try {
+    // Req.files से Cloudinary के सिक्योर यूआरएल (Secure URL) निकालें
+    const imagePaths = req.files ? req.files.map(file => file.path) : [];
+
+    const bookingData = {
+      name: req.body.name,
+      email: req.body.email,
+      whatsapp: req.body.whatsapp,
+      videoTitle: req.body.videoTitle,
+      videoType: req.body.videoType,
+      requirements: req.body.requirements,
+      imagePaths: imagePaths, // यहाँ अब Cloudinary के लिंक्स सेव होंगे
+      status: 'Pending',
+      createdAt: new Date()
+    };
+
+    // MongoDB में डेटाबेस सेव करने का आपका लॉजिक
+    const booking = new Booking(bookingData);
+    await booking.save();
+
+    res.status(200).json({ success: true, booking });
+  } catch (err) {
+    console.error("Booking Error:", err);
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 // User History API
@@ -99,3 +111,16 @@ app.get('/api/history', async (req, res) => {
 // 5. Start Server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const multer = require('multer');
+
+// Cloudinary storage configuration
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'thumbnails',
+    allowed_formats: ['jpg', 'png', 'jpeg', 'webp'],
+  },
+});
+
+const upload = multer({ storage: storage });
