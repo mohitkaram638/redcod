@@ -76,9 +76,9 @@ app.post('/api/booking', upload.array('images', 20), async (req, res) => {
     const bookingData = {
       name: req.body.name,
       email: req.body.email,
-      whatsapp: req.body.whatsapp,
+      phone: req.body.phone,
       videoTitle: req.body.videoTitle,
-      videoType: req.body.videoType,
+      style: req.body.style,
       requirements: req.body.requirements,
       imagePaths: imagePaths, // यहाँ अब Cloudinary के लिंक्स सेव होंगे
       status: 'Pending',
@@ -112,7 +112,7 @@ app.get('/api/history', async (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
-const multer = require('multer');
+
 
 // Cloudinary storage configuration
 const storage = new CloudinaryStorage({
