@@ -32,7 +32,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const formData = new FormData(bookingForm);
 
             try {
-                const response = await fetch('/api/book', {
+                // [!] यहाँ अपने Render का पूरा URL जोड़ें (उदाहरण के लिए: 'https://redcode.onrender.com/api/book')
+                const response = await fetch('https://redcod.onrender.com/api/booking', {
                     method: 'POST',
                     body: formData
                 });
@@ -80,7 +81,8 @@ document.addEventListener("DOMContentLoaded", function () {
             if (historyResult) historyResult.innerHTML = "Searching history...";
 
             try {
-                const response = await fetch(`/api/history?email=${encodeURIComponent(email)}`);
+                // [!] यहाँ भी अपने Render का पूरा URL जोड़ें (उदाहरण के लिए: 'https://redcode.onrender.com/api/history?email=...')
+                const response = await fetch(`https://redcod.onrender.com/api/history?email=${encodeURIComponent(email)}`);
                 if (response.ok) {
                     const data = await response.json();
                     if (data && data.length > 0) {
