@@ -20,5 +20,14 @@
     "multer": "^2.4.0",
     "multer-storage-cloudinary": "^4.0.0",
     "nodemailer": "^10.1.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohitkaram638/redcod.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mohitkaram638/redcod/issues"
+  },
+  "homepage": "https://github.com/mohitkaram638/redcod#readme"
 }

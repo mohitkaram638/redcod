@@ -7,28 +7,33 @@ const Booking = require('./booking');
 const cors = require('cors');
 const app = express();
 const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 cloudinary.config({ 
   cloud_name: 'ukm6a7gc', 
   api_key: '757688874595737', 
   api_secret: 'bzgZpwGLnImxg6Xh6lEjP4jKpVk' 
 });
+
 // 1. Middlewares
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
 
-// 2. Uploads folder setup
+// 2. Uploads folder setup (Optional fallback if needed locally)
 const uploadDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-// 3. Multer Setup
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, 'uploads/'),
-    filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname)
+// 3. Cloudinary Multer Setup (रेंडर और लोकल दोनों के लिए सही स्टोरेज)
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'thumbnails',
+    allowed_formats: ['jpg', 'png', 'jpeg', 'webp'],
+  },
 });
 const upload = multer({ storage: storage });
 
@@ -85,7 +90,7 @@ app.post('/api/booking', upload.array('images', 20), async (req, res) => {
       createdAt: new Date()
     };
 
-    // MongoDB में डेटाबेस सेव करने का आपका लॉजिक
+    // MongoDB में डेटाबेस सेव करने का लॉजिक
     const booking = new Booking(bookingData);
     await booking.save();
 
@@ -111,16 +116,3 @@ app.get('/api/history', async (req, res) => {
 // 5. Start Server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
-
-
-// Cloudinary storage configuration
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: 'thumbnails',
-    allowed_formats: ['jpg', 'png', 'jpeg', 'webp'],
-  },
-});
-
-const upload = multer({ storage: storage });
