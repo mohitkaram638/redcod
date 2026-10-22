@@ -21,13 +21,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
 
-// 2. Uploads folder setup (Optional fallback if needed locally)
+// 2. Uploads folder setup
 const uploadDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-// 3. Cloudinary Multer Setup (रेंडर और लोकल दोनों के लिए सही स्टोरेज)
+// 3. Cloudinary Multer Setup
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
@@ -75,7 +75,8 @@ app.put('/api/admin/update-status', async (req, res) => {
 // New Booking API
 app.post('/api/booking', upload.array('images', 20), async (req, res) => {
   try {
-    // Req.files से Cloudinary के सिक्योर यूआरएल (Secure URL) निकालें
+    console.log("Booking API Hit Successfully!"); // इससे Render के लॉक्स में पता चल जाएगा
+    
     const imagePaths = req.files ? req.files.map(file => file.path) : [];
 
     const bookingData = {
@@ -85,12 +86,11 @@ app.post('/api/booking', upload.array('images', 20), async (req, res) => {
       videoTitle: req.body.videoTitle,
       style: req.body.style,
       requirements: req.body.requirements,
-      imagePaths: imagePaths, // यहाँ अब Cloudinary के लिंक्स सेव होंगे
+      imagePaths: imagePaths,
       status: 'Pending',
       createdAt: new Date()
     };
 
-    // MongoDB में डेटाबेस सेव करने का लॉजिक
     const booking = new Booking(bookingData);
     await booking.save();
 
